@@ -2,26 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Trip;
+use App\Models\Point;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class TripPolicy
+class PointPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Trip $trip): bool
+    public function view(User $user, Point $point): bool
     {
-        return false;
+        return $point->user_id === $user->id;
     }
 
     /**
@@ -29,38 +29,38 @@ class TripPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Trip $trip): bool
+    public function update(User $user, Point $point): bool
     {
-        return false;
+        return $point->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Trip $trip): bool
+    public function delete(User $user, Point $point): bool
     {
-        return false;
+        return $point->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Trip $trip): bool
+    public function restore(User $user, Point $point): bool
     {
-        return false;
+        return $point->user_id === $user->id;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Trip $trip): bool
+    public function forceDelete(User $user, Point $point): bool
     {
-        return false;
+        return $point->user_id === $user->id;
     }
 }

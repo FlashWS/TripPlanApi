@@ -4,11 +4,12 @@ namespace App\DTO;
 
 use Spatie\LaravelData\Data;
 
-class UserForm extends Data
+class PointForm extends Data
 {
     public function __construct(
         public string $name,
-        public string $email,
+        public string $address,
+        public string $location,
     ) {
     }
 }

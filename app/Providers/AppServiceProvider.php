@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Point;
 use App\Models\Trip;
-use App\Observers\TripObserver;
+use App\Observers\PointObserver;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Trip::observe(TripObserver::class);
+        Point::observe(PointObserver::class);
     }
 
     /**

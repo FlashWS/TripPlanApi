@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\PointController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TripController;
 
 Route::post('auth/registration', 'App\Http\Controllers\AuthController@registration')->name('auth.registration');
 Route::post('auth/get_code', 'App\Http\Controllers\AuthController@getCode')->name('auth.get_code');
@@ -13,7 +13,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
     Route::post('user', 'App\Http\Controllers\UserController@update')->name('user.update');
 
     Route::apiResources([
-        'trips' => TripController::class,
+        'points' => PointController::class,
     ]);
 });
 
