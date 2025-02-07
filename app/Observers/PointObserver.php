@@ -8,8 +8,9 @@ use App\Traits\UserIdTrait;
 class PointObserver
 {
     use UserIdTrait;
-    public function created(Point $point): void
+    public function creating(Point $point): void
     {
+        dump($point);
         $this->setUserId($point);
     }
 }

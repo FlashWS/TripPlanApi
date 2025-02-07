@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Point;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,9 +19,11 @@ class DatabaseSeeder extends Seeder
             ->has(Point::factory()->count(30))
             ->create();
 
-        User::factory()->create([
-            'name' => 'Lisin Sergey',
-            'email' => 'sergey@lisin.expert',
-        ]);
+        User::factory()
+            ->has(Point::factory()->count(30))
+            ->create([
+                'name' => 'Lisin Sergey',
+                'email' => 'sergey@lisin.expert',
+            ]);
     }
 }

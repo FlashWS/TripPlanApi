@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('points', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(\App\Models\User::class)->constrained();
+            $table->uuid()->primary();
+            $table->foreignId('user_id')->constrained();
             $table->string('name')->comment('Название точки');
-            $table->string('address')->comment('Адрес');
+            $table->string('address')->nullable()->comment('Адрес');
             $table->geography('location', 'Point', 4326)->comment('Локация')->index();
             $table->timestamps();
+
+            $table->unique(['user_id', 'name']);
         });
+
+        \Illuminate\Support\Facades\DB::statement('ALTER TABLE points ADD SPATIAL INDEX(location);');
     }
 
     /**

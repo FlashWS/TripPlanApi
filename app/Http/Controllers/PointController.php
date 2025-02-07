@@ -26,9 +26,9 @@ class PointController extends Controller
     {
         $pointForm = PointForm::from($request->validated());
 
-        $point = Point::query()->create($pointForm->all());
+        $point = Point::query()->create($pointForm->toArray());
 
-        return PointResource::make($point);
+        return PointResource::make(Point::query()->find($point->uuid));
     }
 
     /**
@@ -46,9 +46,9 @@ class PointController extends Controller
     {
         $pointForm = PointForm::from($request->validated());
 
-        $point->update($pointForm->all());
+        $point->update($pointForm->toArray());
 
-        return PointResource::make($point);
+        return PointResource::make(Point::query()->find($point->uuid));
     }
 
     /**

@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Point;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PointPolicy
 {
@@ -13,7 +14,7 @@ class PointPolicy
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -29,7 +30,7 @@ class PointPolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**

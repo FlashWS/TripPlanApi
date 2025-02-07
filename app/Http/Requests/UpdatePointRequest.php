@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePointRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdatePointRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,10 @@ class UpdatePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|unique:points,name',
+            'address' => 'string|nullable',
+            'location.longitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
+            'location.latitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
         ];
     }
 }

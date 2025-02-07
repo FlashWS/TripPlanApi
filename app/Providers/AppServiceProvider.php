@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Point;
-use App\Models\Trip;
 use App\Observers\PointObserver;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Point::observe(PointObserver::class);
+
     }
 
     /**
@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        JsonResource::withoutWrapping();
+        Point::observe(PointObserver::class);
     }
 }

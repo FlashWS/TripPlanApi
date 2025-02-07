@@ -4,14 +4,15 @@ namespace App\Models;
 
 use App\Casts\PointCast;
 use App\Models\Scopes\UserScope;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
  *
- * @property int $id
+ *
+ * @property string $uuid
  * @property int $user_id
  * @property string $name Название точки
  * @property string $address Адрес
@@ -26,17 +27,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereLocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUuid($value)
  * @mixin \Eloquent
  */
 class Point extends Model
 {
     /** @use HasFactory<\Database\Factories\PointFactory> */
     use HasFactory;
+    use HasUuids;
+
+    protected $keyType = 'string';
+    public $incrementing = false;
+    protected $primaryKey = 'uuid';
+
     protected $fillable = [
         'name',
         'address',

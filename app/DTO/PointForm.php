@@ -8,8 +8,8 @@ class PointForm extends Data
 {
     public function __construct(
         public string $name,
-        public string $address,
-        public string $location,
+        public ?string $address,
+        public LocationData $location,
     ) {
     }
 }

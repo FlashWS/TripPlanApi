@@ -2,18 +2,26 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PointResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Class Point
      *
-     * @return array<string, mixed>
-     */
+     * @mixin Point
+     * */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'address' => $this->address,
+            'location' => $this->location,
+            'created_at' => (string) $this->created_at,
+            'updated_at' => (string) $this->updated_at,
+        ];
     }
 }
