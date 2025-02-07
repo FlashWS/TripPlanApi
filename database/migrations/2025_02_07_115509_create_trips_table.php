@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('points', function (Blueprint $table) {
+        Schema::create('trips', function (Blueprint $table) {
             $table->uuid()->primary();
             $table->foreignId('user_id')->constrained();
-            $table->geography('location', 'Point', 4326)->comment('Локация')->index();
-            $table->string('name')->comment('Название точки');
-            $table->string('address')->nullable()->comment('Адрес');
+            $table->string('name')->comment('Название путешествия')->index();
+            $table->timestamp('date_start')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('Дата старта');
+            $table->timestamp('date_end')->default(DB::raw('CURRENT_TIMESTAMP'))->comment('Дата окончания');
+            $table->unsignedBigInteger('days')->virtualAs("DATEDIFF(DATE(date_end), DATE(date_start)) + 1");
             $table->text('note')->nullable()->comment('Примечание');
             $table->timestamps();
 
@@ -24,8 +25,6 @@ return new class extends Migration
             $table->index(['created_at']);
             $table->index(['updated_at']);
         });
-
-        \Illuminate\Support\Facades\DB::statement('ALTER TABLE points ADD SPATIAL INDEX(location);');
     }
 
     /**
@@ -33,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('points');
+        Schema::dropIfExists('trips');
     }
 };

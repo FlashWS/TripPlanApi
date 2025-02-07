@@ -4,13 +4,15 @@ namespace App\Models;
 
 use App\Casts\PointCast;
 use App\Models\Scopes\UserScope;
+use Database\Factories\PointFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- *
+ * 
  *
  * @property string $uuid
  * @property int $user_id
@@ -21,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\TFactory|null $use_factory
  * @property-read \App\Models\User $user
- * @method static \Database\Factories\PointFactory factory($count = null, $state = [])
+ * @method static PointFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point query()
@@ -32,13 +34,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereUuid($value)
+ * @property string|null $note Примечание
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Tag> $tags
+ * @property-read int|null $tags_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Point whereNote($value)
  * @mixin \Eloquent
  */
 class Point extends Model
 {
-    /** @use HasFactory<\Database\Factories\PointFactory> */
-    use HasFactory;
-    use HasUuids;
+    /** @use HasFactory<PointFactory> */
+    use HasFactory, HasUuids;
 
     protected $keyType = 'string';
     public $incrementing = false;
@@ -62,6 +67,11 @@ class Point extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
 }

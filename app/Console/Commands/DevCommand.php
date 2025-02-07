@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Point;
+use App\Models\Trip;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,10 @@ class DevCommand extends Command
     public function handle()
     {
         Auth::loginUsingId(1);
-        $point = Point::query()->first();
-        dd($point);
+//        $point = Point::query()->first();
+//        dd($point);
+
+        $trip = Trip::first();
+        dd($trip->points->toArray());
     }
 }

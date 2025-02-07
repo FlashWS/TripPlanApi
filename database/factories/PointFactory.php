@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,12 +18,13 @@ class PointFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->company(),
+            'name' => fake()->unique()->company(),
             'address' => fake()->address(),
             'location' => [
                 'latitude' => fake()->latitude(),
                 'longitude' => fake()->longitude(),
             ],
+            'note' => fake()->text(),
         ];
     }
 }
