@@ -6,7 +6,7 @@ use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PointResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Class Point
@@ -18,9 +18,8 @@ class PointResource extends JsonResource
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'address' => $this->address,
-            'location' => $this->location,
-            'note' => $this->note,
+            'icon' => $this->icon,
+            'color' => $this->color,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

@@ -6,7 +6,7 @@ use App\Models\Point;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PointResource extends JsonResource
+class TripResource extends JsonResource
 {
     /**
      * Class Point
@@ -18,8 +18,9 @@ class PointResource extends JsonResource
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'address' => $this->address,
-            'location' => $this->location,
+            'date_start' => (string) $this->date_start,
+            'date_end' => (string) $this->date_end,
+            'days' => $this->days,
             'note' => $this->note,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,

@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -51,9 +49,9 @@ class TripPoint extends Pivot
     protected $primaryKey = 'uuid';
 
     protected $fillable = [
-        'name',
-        'date_start',
-        'date_end',
+        'day',
+        'time',
+        'order',
         'note',
     ];
 

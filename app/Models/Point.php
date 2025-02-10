@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
- * 
+ *
  *
  * @property string $uuid
  * @property int $user_id
@@ -53,6 +53,7 @@ class Point extends Model
         'name',
         'address',
         'location',
+        'note',
     ];
 
     protected $casts = [
