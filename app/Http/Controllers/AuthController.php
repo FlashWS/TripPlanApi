@@ -19,6 +19,13 @@ use Illuminate\Validation\ValidationException;
  */
 class AuthController extends Controller
 {
+    /**
+     * Регистрация нового пользователя
+     *
+     * Создает нового пользователя и отправляет код подтверждения на email.
+     *
+     * @response 200 {"message": "Успешная регистрация! Код доступа отправлен на почту!"}
+     */
     public function registration(RegistrationRequest $request): MessageResponse
     {
         $registrationForm = RegistrationForm::from($request->validated());
@@ -32,6 +39,13 @@ class AuthController extends Controller
         return new MessageResponse('Успешная регистрация! Код доступа отправлен на почту!');
     }
 
+    /**
+     * Запросить код доступа
+     *
+     * Отправляет код двухфакторной аутентификации на email пользователя.
+     *
+     * @response 200 {"message": "Ваш код доступа отправлен на почту!"}
+     */
     public function getCode(CodeRequest $request): MessageResponse
     {
         $codeForm = CodeForm::from($request->validated());
@@ -45,6 +59,13 @@ class AuthController extends Controller
         return new MessageResponse('Ваш код доступа отправлен на почту!');
     }
 
+    /**
+     * Получить токен доступа
+     *
+     * Обменивает код двухфакторной аутентификации на Bearer токен для API.
+     *
+     * @response 200 string "1|abcdefghijklmnopqrstuvwxyz"
+     */
     public function getToken(TokenRequest $request): string
     {
         $tokenForm = TokenForm::from($request->validated());
@@ -73,7 +94,12 @@ class AuthController extends Controller
     }
 
     /**
+     * Выйти на всех устройствах
+     *
+     * Удаляет все токены доступа пользователя, выполняя выход на всех устройствах.
+     *
      * @authenticated
+     * @response 200 {"message": "Вы вышли на всех устройствах!"}
      * @throws AuthenticationException
      */
     public function removeTokens(): MessageResponse

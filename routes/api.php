@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PointController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TripController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('auth/registration', 'App\Http\Controllers\AuthController@registration')->name('auth.registration');
@@ -14,6 +16,8 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
 
     Route::apiResources([
         'points' => PointController::class,
+        'trips' => TripController::class,
+        'tags' => TagController::class,
     ]);
 });
 

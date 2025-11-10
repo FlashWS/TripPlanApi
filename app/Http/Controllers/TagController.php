@@ -9,10 +9,17 @@ use App\Http\Resources\TagResource;
 use App\Models\Tag;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * @group Теги
+ */
 class TagController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Получить список тегов
+     *
+     * Возвращает пагинированный список всех тегов.
+     *
+     * @authenticated
      */
     public function index(): AnonymousResourceCollection
     {
@@ -20,9 +27,13 @@ class TagController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создать новый тег
+     *
+     * Создает новый тег с заданным названием.
+     *
+     * @authenticated
      */
-    public function store(StoreTagRequest $request)
+    public function store(StoreTagRequest $request): TagResource
     {
         $TagForm = TagForm::from($request->validated());
 
@@ -32,15 +43,23 @@ class TagController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Получить тег
+     *
+     * Возвращает информацию о конкретном теге по его идентификатору.
+     *
+     * @authenticated
      */
-    public function show(Tag $Tag)
+    public function show(Tag $Tag): TagResource
     {
         return TagResource::make($Tag);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить тег
+     *
+     * Обновляет информацию о существующем теге.
+     *
+     * @authenticated
      */
     public function update(UpdateTagRequest $request, Tag $Tag): TagResource
     {
@@ -52,9 +71,14 @@ class TagController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удалить тег
+     *
+     * Удаляет тег из системы.
+     *
+     * @authenticated
+     * @response 204
      */
-    public function destroy(Tag $Tag)
+    public function destroy(Tag $Tag): void
     {
         $Tag->delete();
     }

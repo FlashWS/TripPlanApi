@@ -9,10 +9,17 @@ use App\Http\Resources\PointResource;
 use App\Models\Point;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * @group Точки
+ */
 class PointController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Получить список точек
+     *
+     * Возвращает пагинированный список всех точек пользователя.
+     *
+     * @authenticated
      */
     public function index(): AnonymousResourceCollection
     {
@@ -20,9 +27,13 @@ class PointController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создать новую точку
+     *
+     * Создает новую точку с заданными координатами и описанием.
+     *
+     * @authenticated
      */
-    public function store(StorePointRequest $request)
+    public function store(StorePointRequest $request): PointResource
     {
         $pointForm = PointForm::from($request->validated());
 
@@ -32,15 +43,23 @@ class PointController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Получить точку
+     *
+     * Возвращает информацию о конкретной точке по её идентификатору.
+     *
+     * @authenticated
      */
-    public function show(Point $point)
+    public function show(Point $point): PointResource
     {
         return PointResource::make($point);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить точку
+     *
+     * Обновляет информацию о существующей точке.
+     *
+     * @authenticated
      */
     public function update(UpdatePointRequest $request, Point $point): PointResource
     {
@@ -52,9 +71,14 @@ class PointController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удалить точку
+     *
+     * Удаляет точку из системы.
+     *
+     * @authenticated
+     * @response 204
      */
-    public function destroy(Point $point)
+    public function destroy(Point $point): void
     {
         $point->delete();
     }

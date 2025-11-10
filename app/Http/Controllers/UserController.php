@@ -8,10 +8,17 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * @group Пользователь
+ */
 class UserController extends Controller
 {
     /**
-     * Display the specified resource.
+     * Получить профиль текущего пользователя
+     *
+     * Возвращает информацию о профиле авторизованного пользователя.
+     *
+     * @authenticated
      */
     public function show(): UserResource
     {
@@ -19,7 +26,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить профиль пользователя
+     *
+     * Обновляет информацию профиля авторизованного пользователя.
+     *
+     * @authenticated
      */
     public function update(UserRequest $request, User $user): UserResource
     {

@@ -9,10 +9,17 @@ use App\Http\Resources\TripResource;
 use App\Models\Trip;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * @group Путешествия
+ */
 class TripController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Получить список путешествий
+     *
+     * Возвращает пагинированный список всех путешествий пользователя.
+     *
+     * @authenticated
      */
     public function index(): AnonymousResourceCollection
     {
@@ -20,9 +27,13 @@ class TripController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создать новое путешествие
+     *
+     * Создает новое путешествие с заданными параметрами.
+     *
+     * @authenticated
      */
-    public function store(StoreTripRequest $request)
+    public function store(StoreTripRequest $request): TripResource
     {
         $TripForm = TripForm::from($request->validated());
 
@@ -32,15 +43,23 @@ class TripController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Получить путешествие
+     *
+     * Возвращает информацию о конкретном путешествии по его идентификатору.
+     *
+     * @authenticated
      */
-    public function show(Trip $Trip)
+    public function show(Trip $Trip): TripResource
     {
         return TripResource::make($Trip);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Обновить путешествие
+     *
+     * Обновляет информацию о существующем путешествии.
+     *
+     * @authenticated
      */
     public function update(UpdateTripRequest $request, Trip $Trip): TripResource
     {
@@ -52,9 +71,14 @@ class TripController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Удалить путешествие
+     *
+     * Удаляет путешествие из системы.
+     *
+     * @authenticated
+     * @response 204
      */
-    public function destroy(Trip $Trip)
+    public function destroy(Trip $Trip): void
     {
         $Trip->delete();
     }
