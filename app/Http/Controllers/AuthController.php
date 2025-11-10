@@ -79,8 +79,6 @@ class AuthController extends Controller
             ]);
         }
 
-        dump($user->two_factor_code, $tokenForm->code);
-
         if ($user->two_factor_code !== $tokenForm->code) {
             throw ValidationException::withMessages([
                 'email' => ['Не верный двухфакторный код. Пожалуйста, войдите еще раз.'],

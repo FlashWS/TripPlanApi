@@ -78,8 +78,9 @@ class TagController extends Controller
      * @authenticated
      * @response 204
      */
-    public function destroy(Tag $Tag): void
+    public function destroy(Tag $Tag): \Illuminate\Http\Response
     {
         $Tag->delete();
+        return response()->noContent();
     }
 }

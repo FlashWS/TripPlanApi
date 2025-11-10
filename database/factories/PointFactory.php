@@ -18,6 +18,7 @@ class PointFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'name' => fake()->unique()->company(),
             'address' => fake()->address(),
             'location' => [

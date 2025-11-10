@@ -8,7 +8,9 @@ trait UserIdTrait
 {
     public function setUserId(Model $model): Model
     {
-        $model->user_id ??= (int)auth()->id();
+        if (!$model->user_id && auth()->id()) {
+            $model->user_id = (int)auth()->id();
+        }
 
         return $model;
     }

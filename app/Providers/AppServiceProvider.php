@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Point;
+use App\Models\Tag;
+use App\Models\Trip;
 use App\Observers\PointObserver;
+use App\Observers\TagObserver;
+use App\Observers\TripObserver;
 use Dedoc\Scramble\Scramble;
 use Dedoc\Scramble\Support\Generator\OpenApi;
 use Dedoc\Scramble\Support\Generator\SecurityScheme;
@@ -27,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     {
         JsonResource::withoutWrapping();
         Point::observe(PointObserver::class);
+        Tag::observe(TagObserver::class);
+        Trip::observe(TripObserver::class);
 
         // Настройка Scramble для OpenAPI документации
         Scramble::extendOpenApi(function (OpenApi $openApi) {

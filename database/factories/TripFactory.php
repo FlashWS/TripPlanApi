@@ -18,6 +18,7 @@ class TripFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'name' => fake()->unique()->country(),
             'date_start' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
             'date_end' => $this->faker->dateTimeBetween('+1 month', '+2 month'),

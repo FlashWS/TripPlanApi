@@ -10,7 +10,6 @@ class PointObserver
     use UserIdTrait;
     public function creating(Point $point): void
     {
-        dump($point);
         $this->setUserId($point);
     }
 }

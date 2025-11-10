@@ -32,8 +32,10 @@ class UserController extends Controller
      *
      * @authenticated
      */
-    public function update(UserRequest $request, User $user): UserResource
+    public function update(UserRequest $request): UserResource
     {
+        $user = auth()->user();
+
         $userForm = UserForm::from($request->validated());
 
         $user->update($userForm->all());

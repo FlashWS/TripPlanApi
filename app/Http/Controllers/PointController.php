@@ -78,8 +78,9 @@ class PointController extends Controller
      * @authenticated
      * @response 204
      */
-    public function destroy(Point $point): void
+    public function destroy(Point $point): \Illuminate\Http\Response
     {
         $point->delete();
+        return response()->noContent();
     }
 }

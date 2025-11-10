@@ -78,8 +78,9 @@ class TripController extends Controller
      * @authenticated
      * @response 204
      */
-    public function destroy(Trip $Trip): void
+    public function destroy(Trip $Trip): \Illuminate\Http\Response
     {
         $Trip->delete();
+        return response()->noContent();
     }
 }

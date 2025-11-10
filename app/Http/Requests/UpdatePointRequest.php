@@ -23,10 +23,11 @@ class UpdatePointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:points,name',
+            'name' => 'required|string|max:255',
             'address' => 'string|nullable',
             'location.longitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
             'location.latitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
+            'note' => 'nullable|string',
         ];
     }
 }
