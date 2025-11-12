@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('trip_point', function (Blueprint $table) {
             $table->uuid()->primary();
+            $table->foreignId('user_id')->constrained();
             $table->foreignUuid('trip_uuid')->constrained('trips', 'uuid');
             $table->foreignUuid('point_uuid')->constrained('points', 'uuid');
             $table->unsignedBigInteger('day')->index();

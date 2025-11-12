@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -55,6 +56,16 @@ class TripPoint extends Pivot
         'note',
         'point_uuid',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new UserScope);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function trip(): BelongsTo
     {

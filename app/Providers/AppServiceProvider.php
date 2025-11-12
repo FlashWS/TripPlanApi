@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Models\Point;
 use App\Models\Tag;
 use App\Models\Trip;
+use App\Models\TripPoint;
 use App\Observers\PointObserver;
 use App\Observers\TagObserver;
 use App\Observers\TripObserver;
+use App\Observers\TripPointObserver;
 use Dedoc\Scramble\Scramble;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Route;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Point::observe(PointObserver::class);
         Tag::observe(TagObserver::class);
         Trip::observe(TripObserver::class);
+        TripPoint::observe(TripPointObserver::class);
 
         // Настройка Scramble для OpenAPI документации
         Scramble::configure()
