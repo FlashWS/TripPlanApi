@@ -11,6 +11,8 @@ use App\Observers\TagObserver;
 use App\Observers\TripObserver;
 use App\Observers\TripPointObserver;
 use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Routing\Route;
 use Illuminate\Support\ServiceProvider;
@@ -39,7 +41,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Настройка Scramble для OpenAPI документации
         Scramble::configure()
-            ->routes(function (Route $route) {
+            ->withDocumentTransformers(function (OpenApi $openApi) {
+                $openApi->secure(
+                    SecurityScheme::http('bearer', 'JWT')
+                );
+            })->routes(function (Route $route) {
                 return Str::startsWith($route->uri, 'api/');
             });
     }

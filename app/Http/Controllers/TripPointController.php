@@ -59,9 +59,9 @@ class TripPointController extends Controller
      *
      * @authenticated
      */
-    public function show(Trip $trip, TripPoint $point): TripPointResource
+    public function show(TripPoint $tripPoint): TripPointResource
     {
-        return TripPointResource::make($point->load('point.tags'));
+        return TripPointResource::make($tripPoint->load('point.tags'));
     }
 
     /**
@@ -71,13 +71,13 @@ class TripPointController extends Controller
      *
      * @authenticated
      */
-    public function update(UpdateTripPointRequest $request, Trip $trip, TripPoint $point): TripPointResource
+    public function update(UpdateTripPointRequest $request, TripPoint $tripPoint): TripPointResource
     {
         $tripPointForm = TripPointForm::from($request->validated());
 
-        $point->update($tripPointForm->toArray());
+        $tripPoint->update($tripPointForm->toArray());
 
-        return TripPointResource::make($point->load('point.tags'));
+        return TripPointResource::make($tripPoint->load('point.tags'));
     }
 
     /**
@@ -88,9 +88,9 @@ class TripPointController extends Controller
      * @authenticated
      * @response 204
      */
-    public function destroy(Trip $trip, TripPoint $point): \Illuminate\Http\Response
+    public function destroy(TripPoint $tripPoint): \Illuminate\Http\Response
     {
-        $point->delete();
+        $tripPoint->delete();
         return response()->noContent();
     }
 }

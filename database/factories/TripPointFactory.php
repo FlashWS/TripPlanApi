@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Point;
 use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class TripPointFactory extends Factory
     public function definition(): array
     {
         return [
+            'user_id' => User::factory(),
             'point_uuid' => Point::factory(),
             'day' => $this->faker->randomDigitNot(0),
             'time' => $this->faker->time(),

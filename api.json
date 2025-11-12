@@ -10,6 +10,11 @@
             "url": "https://tripplanbackend.test/api"
         }
     ],
+    "security": [
+        {
+            "http": []
+        }
+    ],
     "paths": {
         "/auth/registration": {
             "post": {
@@ -1198,9 +1203,9 @@
                 }
             }
         },
-        "/trips/{trip}/points/{point}": {
+        "/trip_points/{tripPoint}": {
             "get": {
-                "operationId": "trips.points.show",
+                "operationId": "trip_points.show",
                 "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u043a\u043e\u043d\u043a\u0440\u0435\u0442\u043d\u043e\u0439 \u0442\u043e\u0447\u043a\u0435 \u0432 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u0438.",
                 "summary": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u044f",
                 "tags": [
@@ -1208,20 +1213,10 @@
                 ],
                 "parameters": [
                     {
-                        "name": "trip",
+                        "name": "tripPoint",
                         "in": "path",
                         "required": true,
-                        "description": "The trip UUID",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "name": "point",
-                        "in": "path",
-                        "required": true,
-                        "description": "The point UUID",
+                        "description": "The trip point UUID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1247,8 +1242,8 @@
                     }
                 }
             },
-            "put": {
-                "operationId": "trips.points.update",
+            "patch": {
+                "operationId": "trip_points.update",
                 "description": "\u041e\u0431\u043d\u043e\u0432\u043b\u044f\u0435\u0442 \u0438\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044e \u043e \u0442\u043e\u0447\u043a\u0435 \u0432 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u0438 (\u0434\u0435\u043d\u044c, \u0432\u0440\u0435\u043c\u044f, \u043f\u043e\u0440\u044f\u0434\u043e\u043a, \u043f\u0440\u0438\u043c\u0435\u0447\u0430\u043d\u0438\u0435).",
                 "summary": "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u044f",
                 "tags": [
@@ -1256,20 +1251,10 @@
                 ],
                 "parameters": [
                     {
-                        "name": "trip",
+                        "name": "tripPoint",
                         "in": "path",
                         "required": true,
-                        "description": "The trip UUID",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "name": "point",
-                        "in": "path",
-                        "required": true,
-                        "description": "The point UUID",
+                        "description": "The trip point UUID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1309,7 +1294,7 @@
                 }
             },
             "delete": {
-                "operationId": "trips.points.destroy",
+                "operationId": "trip_points.destroy",
                 "description": "\u0423\u0434\u0430\u043b\u044f\u0435\u0442 \u0442\u043e\u0447\u043a\u0443 \u0438\u0437 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u044f (\u043d\u0435 \u0443\u0434\u0430\u043b\u044f\u0435\u0442 \u0441\u0430\u043c\u0443 \u0442\u043e\u0447\u043a\u0443).",
                 "summary": "\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0442\u043e\u0447\u043a\u0443 \u0438\u0437 \u043f\u0443\u0442\u0435\u0448\u0435\u0441\u0442\u0432\u0438\u044f",
                 "tags": [
@@ -1317,20 +1302,10 @@
                 ],
                 "parameters": [
                     {
-                        "name": "trip",
+                        "name": "tripPoint",
                         "in": "path",
                         "required": true,
-                        "description": "The trip UUID",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "name": "point",
-                        "in": "path",
-                        "required": true,
-                        "description": "The point UUID",
+                        "description": "The trip point UUID",
                         "schema": {
                             "type": "string",
                             "format": "uuid"
@@ -1423,6 +1398,13 @@
         }
     },
     "components": {
+        "securitySchemes": {
+            "http": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
         "schemas": {
             "CodeRequest": {
                 "type": "object",
@@ -1713,10 +1695,7 @@
                         "type": "integer"
                     },
                     "time": {
-                        "type": [
-                            "string",
-                            "null"
-                        ]
+                        "type": "string"
                     },
                     "order": {
                         "type": "integer"

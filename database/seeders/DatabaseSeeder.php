@@ -46,6 +46,7 @@ class DatabaseSeeder extends Seeder
 
             foreach ($trips as $trip) {
                 TripPoint::factory()->create([
+                    'user_id' => $user->id,
                     'trip_uuid' => $trip->uuid,
                     'point_uuid' => $user->points()->inRandomOrder()->first()->uuid,
                 ]);
