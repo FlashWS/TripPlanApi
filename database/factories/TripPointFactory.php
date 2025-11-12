@@ -19,6 +19,7 @@ class TripPointFactory extends Factory
     public function definition(): array
     {
         return [
+            'point_uuid' => Point::factory(),
             'day' => $this->faker->randomDigitNot(0),
             'time' => $this->faker->time(),
             'note' => fake()->text(),

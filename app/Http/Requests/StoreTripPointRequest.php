@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreTripPointRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class StoreTripPointRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return Auth::check();
     }
 
     /**
@@ -22,7 +23,11 @@ class StoreTripPointRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'point_uuid' => 'required|string|exists:points,uuid',
+            'day' => 'required|integer|min:1',
+            'time' => 'nullable|date_format:H:i',
+            'order' => 'nullable|integer|min:0',
+            'note' => 'nullable|string',
         ];
     }
 }

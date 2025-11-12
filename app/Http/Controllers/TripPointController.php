@@ -2,65 +2,95 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\TripPointForm;
 use App\Http\Requests\StoreTripPointRequest;
 use App\Http\Requests\UpdateTripPointRequest;
+use App\Http\Resources\TripPointResource;
+use App\Models\Trip;
 use App\Models\TripPoint;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * @group Точки путешествия
+ */
 class TripPointController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Получить список точек путешествия
+     *
+     * Возвращает список всех точек в путешествии, отсортированных по дню и порядку.
+     *
+     * @authenticated
      */
-    public function index()
+    public function index(Trip $trip): AnonymousResourceCollection
     {
-        //
+        $tripPoints = TripPoint::query()
+            ->where('trip_uuid', $trip->uuid)
+            ->with('point.tags')
+            ->orderBy('day')
+            ->orderBy('order')
+            ->get();
+
+        return TripPointResource::collection($tripPoints);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Добавить точку в путешествие
+     *
+     * Добавляет существующую точку в путешествие с указанием дня, времени и порядка.
+     *
+     * @authenticated
      */
-    public function create()
+    public function store(StoreTripPointRequest $request, Trip $trip): TripPointResource
     {
-        //
+        $tripPointForm = TripPointForm::from($request->validated());
+
+        $tripPoint = new TripPoint($tripPointForm->toArray());
+        $tripPoint->trip_uuid = $trip->uuid;
+        $tripPoint->save();
+
+        return TripPointResource::make($tripPoint->load('point.tags'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Получить точку путешествия
+     *
+     * Возвращает информацию о конкретной точке в путешествии.
+     *
+     * @authenticated
      */
-    public function store(StoreTripPointRequest $request)
+    public function show(Trip $trip, TripPoint $point): TripPointResource
     {
-        //
+        return TripPointResource::make($point->load('point.tags'));
     }
 
     /**
-     * Display the specified resource.
+     * Обновить точку путешествия
+     *
+     * Обновляет информацию о точке в путешествии (день, время, порядок, примечание).
+     *
+     * @authenticated
      */
-    public function show(TripPoint $tripPoint)
+    public function update(UpdateTripPointRequest $request, Trip $trip, TripPoint $point): TripPointResource
     {
-        //
+        $tripPointForm = TripPointForm::from($request->validated());
+
+        $point->update($tripPointForm->toArray());
+
+        return TripPointResource::make($point->load('point.tags'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Удалить точку из путешествия
+     *
+     * Удаляет точку из путешествия (не удаляет саму точку).
+     *
+     * @authenticated
+     * @response 204
      */
-    public function edit(TripPoint $tripPoint)
+    public function destroy(Trip $trip, TripPoint $point): \Illuminate\Http\Response
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTripPointRequest $request, TripPoint $tripPoint)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TripPoint $tripPoint)
-    {
-        //
+        $point->delete();
+        return response()->noContent();
     }
 }

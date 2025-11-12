@@ -3,6 +3,7 @@
 use App\Http\Controllers\PointController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\TripPointController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('auth/registration', 'App\Http\Controllers\AuthController@registration')->name('auth.registration');
@@ -18,6 +19,7 @@ Route::group(['middleware' => 'auth:sanctum',], function () {
         'points' => PointController::class,
         'trips' => TripController::class,
         'tags' => TagController::class,
+        'trips.points' => TripPointController::class,
     ]);
 });
 

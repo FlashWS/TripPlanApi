@@ -21,6 +21,7 @@ class PointResource extends JsonResource
             'address' => $this->address,
             'location' => $this->location,
             'note' => $this->note,
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

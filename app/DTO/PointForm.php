@@ -10,6 +10,9 @@ class PointForm extends Data
         public string $name,
         public ?string $address,
         public LocationData $location,
+        public ?string $note,
+        /** @var array<string>|null */
+        public ?array $tags = null,
     ) {
     }
 }

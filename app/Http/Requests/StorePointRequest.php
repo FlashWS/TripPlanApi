@@ -12,7 +12,7 @@ class StorePointRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check();
+        return true;
     }
 
     /**
@@ -28,6 +28,8 @@ class StorePointRequest extends FormRequest
             'location.longitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
             'location.latitude' => 'required|regex:/^-?\d{1,2}\.\d{6,}$/',
             'note' => 'nullable|string',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|string|exists:tags,uuid',
         ];
     }
 }

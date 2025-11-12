@@ -2,27 +2,28 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Trip;
+use App\Models\TripPoint;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TripResource extends JsonResource
+class TripPointResource extends JsonResource
 {
     /**
-     * Class Trip
+     * Class TripPoint
      *
-     * @mixin Trip
+     * @mixin TripPoint
      * */
     public function toArray(Request $request): array
     {
         return [
             'uuid' => $this->uuid,
-            'name' => $this->name,
-            'date_start' => (string) $this->date_start,
-            'date_end' => (string) $this->date_end,
-            'days' => $this->days,
+            'trip_uuid' => $this->trip_uuid,
+            'point_uuid' => $this->point_uuid,
+            'day' => $this->day,
+            'time' => $this->time,
+            'order' => $this->order,
             'note' => $this->note,
-            'points' => TripPointResource::collection($this->whenLoaded('points')),
+            'point' => new PointResource($this->whenLoaded('point')),
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
         ];

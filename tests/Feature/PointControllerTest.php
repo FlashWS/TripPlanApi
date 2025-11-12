@@ -231,4 +231,129 @@ describe('PointController', function () {
             $response->assertStatus(401);
         });
     });
+
+    describe('Tags', function () {
+        it('can create a point with tags', function () {
+            $tag1 = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+            $tag2 = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+
+            $data = [
+                'name' => 'Point with Tags',
+                'address' => 'Test Address',
+                'location' => [
+                    'latitude' => '55.755800',
+                    'longitude' => '37.617300',
+                ],
+                'tags' => [$tag1->uuid, $tag2->uuid],
+            ];
+
+            $response = $this->actingAs($this->user)
+                ->postJson('/api/points', $data);
+
+            $response->assertStatus(200)
+                ->assertJsonFragment(['name' => 'Point with Tags'])
+                ->assertJsonCount(2, 'tags');
+
+            $this->assertDatabaseHas('point_tag', [
+                'tag_uuid' => $tag1->uuid,
+            ]);
+        });
+
+        it('can update point tags', function () {
+            $point = Point::factory()->create(['user_id' => $this->user->id]);
+            $tag1 = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+            $tag2 = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+            $tag3 = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+
+            $point->tags()->attach([$tag1->uuid, $tag2->uuid]);
+
+            $data = [
+                'name' => 'Updated Point',
+                'address' => 'Updated Address',
+                'location' => [
+                    'latitude' => '55.755800',
+                    'longitude' => '37.617300',
+                ],
+                'tags' => [$tag2->uuid, $tag3->uuid],
+            ];
+
+            $response = $this->actingAs($this->user)
+                ->putJson("/api/points/{$point->uuid}", $data);
+
+            $response->assertStatus(200)
+                ->assertJsonCount(2, 'tags');
+
+            $this->assertDatabaseHas('point_tag', [
+                'point_uuid' => $point->uuid,
+                'tag_uuid' => $tag2->uuid,
+            ]);
+
+            $this->assertDatabaseHas('point_tag', [
+                'point_uuid' => $point->uuid,
+                'tag_uuid' => $tag3->uuid,
+            ]);
+
+            $this->assertDatabaseMissing('point_tag', [
+                'point_uuid' => $point->uuid,
+                'tag_uuid' => $tag1->uuid,
+            ]);
+        });
+
+        it('can show point with tags', function () {
+            $point = Point::factory()->create(['user_id' => $this->user->id]);
+            $tag = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+            $point->tags()->attach($tag->uuid);
+
+            $response = $this->actingAs($this->user)
+                ->getJson("/api/points/{$point->uuid}");
+
+            $response->assertStatus(200)
+                ->assertJsonCount(1, 'tags')
+                ->assertJsonFragment(['uuid' => $tag->uuid]);
+        });
+
+        it('validates tags exist', function () {
+            $data = [
+                'name' => 'Test Point',
+                'address' => 'Test Address',
+                'location' => [
+                    'latitude' => '55.755800',
+                    'longitude' => '37.617300',
+                ],
+                'tags' => ['non-existent-uuid'],
+            ];
+
+            $response = $this->actingAs($this->user)
+                ->postJson('/api/points', $data);
+
+            $response->assertStatus(422)
+                ->assertJsonValidationErrors(['tags.0']);
+        });
+
+        it('can remove all tags from point', function () {
+            $point = Point::factory()->create(['user_id' => $this->user->id]);
+            $tag = \App\Models\Tag::factory()->create(['user_id' => $this->user->id]);
+            $point->tags()->attach($tag->uuid);
+
+            $data = [
+                'name' => 'Updated Point',
+                'address' => 'Updated Address',
+                'location' => [
+                    'latitude' => '55.755800',
+                    'longitude' => '37.617300',
+                ],
+                'tags' => [],
+            ];
+
+            $response = $this->actingAs($this->user)
+                ->putJson("/api/points/{$point->uuid}", $data);
+
+            $response->assertStatus(200)
+                ->assertJsonCount(0, 'tags');
+
+            $this->assertDatabaseMissing('point_tag', [
+                'point_uuid' => $point->uuid,
+            ]);
+        });
+    });
 });

@@ -23,7 +23,7 @@ class PointController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return PointResource::collection(Point::query()->paginate());
+        return PointResource::collection(Point::query()->with('tags')->paginate());
     }
 
     /**
@@ -37,9 +37,13 @@ class PointController extends Controller
     {
         $pointForm = PointForm::from($request->validated());
 
-        $point = Point::query()->create($pointForm->toArray());
+        $point = Point::query()->create($pointForm->except('tags')->toArray());
 
-        return PointResource::make(Point::query()->find($point->uuid));
+        if ($pointForm->tags) {
+            $point->tags()->sync($pointForm->tags);
+        }
+
+        return PointResource::make(Point::query()->with('tags')->find($point->uuid));
     }
 
     /**
@@ -51,7 +55,7 @@ class PointController extends Controller
      */
     public function show(Point $point): PointResource
     {
-        return PointResource::make($point);
+        return PointResource::make($point->load('tags'));
     }
 
     /**
@@ -65,9 +69,13 @@ class PointController extends Controller
     {
         $pointForm = PointForm::from($request->validated());
 
-        $point->update($pointForm->toArray());
+        $point->update($pointForm->except('tags')->toArray());
 
-        return PointResource::make(Point::query()->find($point->uuid));
+        if ($pointForm->tags !== null) {
+            $point->tags()->sync($pointForm->tags);
+        }
+
+        return PointResource::make(Point::query()->with('tags')->find($point->uuid));
     }
 
     /**

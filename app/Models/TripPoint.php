@@ -53,12 +53,8 @@ class TripPoint extends Pivot
         'time',
         'order',
         'note',
+        'point_uuid',
     ];
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function trip(): BelongsTo
     {
